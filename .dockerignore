@@ -1,0 +1,26 @@
+# dependencies
+node_modules
+
+# build output
+dist
+build
+
+# logs
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# git files
+.git
+.gitignore
+
+# docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# OS and IDE files
+*.swp
+*.DS_Store
+*.idea
+.vscode
