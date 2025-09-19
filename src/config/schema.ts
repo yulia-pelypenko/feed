@@ -5,6 +5,7 @@ export const EnvSchema = {
 	properties: {
 		PORT: { type: "number" },
 		HOST: { type: "string" },
+		MONGO_URI: { type: "string" },
 	},
 	required: ["PORT", "HOST"],
 	additionalProperties: false,
