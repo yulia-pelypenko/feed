@@ -2,6 +2,7 @@ import { join } from "node:path";
 import AutoLoad from "@fastify/autoload";
 import Fastify, { type FastifyServerOptions } from "fastify";
 import configPlugin from "./config";
+import prismaPlugin from "./modules/feedParser/plugins/prisma";
 import { getFeedDataRoutes } from "./modules/feedParser/routes/feedParser.route";
 
 export type AppOptions = Partial<FastifyServerOptions>;
@@ -9,6 +10,7 @@ export type AppOptions = Partial<FastifyServerOptions>;
 async function buildApp(options: AppOptions = {}) {
 	const fastify = Fastify({ logger: true });
 	await fastify.register(configPlugin);
+	await fastify.register(prismaPlugin);
 
 	try {
 		fastify.decorate("pluginLoaded", (pluginName: string) => {
