@@ -1,17 +1,39 @@
-import type { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 import type { FastifyInstance } from "fastify";
-import { schema } from "../schemas/getFeedData.schema";
+import type { FromSchema } from "json-schema-to-ts";
+import { getFeedSchema } from "../schemas/getFeedData.schema";
+import { FeedDbService } from "../services/feedDb.service";
+import { feedParserService } from "../services/feedParser.service";
+
+type GetFeedQuery = FromSchema<typeof getFeedSchema.querystring>;
 
 export async function getFeedDataRoutes(fastify: FastifyInstance) {
-	const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
+	const feedService = feedParserService(fastify.prisma);
+	const feedDb = FeedDbService(fastify.prisma);
 
-	route.get(
+	fastify.get<{ Querystring: GetFeedQuery }>(
 		"/feed",
-		{
-			schema: schema,
-		},
-		async (request, reply) => {
-			reply.send({ hello: "feed" });
+		{ schema: getFeedSchema },
+		async (req, reply) => {
+			const { url, force } = req.query;
+			const feedUrl = url;
+
+			try {
+				if (force === "1") {
+					const feed = await feedService.parseAndSave(feedUrl);
+					return reply.send(feed);
+				}
+
+				let feed = await feedDb.getFeedByUrl(feedUrl);
+
+				if (!feed) {
+					feed = await feedService.parseAndSave(feedUrl);
+				}
+
+				return reply.send(feed);
+			} catch (err) {
+				req.log.error({ err }, "Failed to get feed");
+				return reply.status(500).send({ error: "Failed to fetch feed" });
+			}
 		},
 	);
 }
