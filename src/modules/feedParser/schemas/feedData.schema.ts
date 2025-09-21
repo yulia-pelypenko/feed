@@ -1,4 +1,4 @@
-export const getFeedSchema = {
+export const feedSchema = {
 	tags: ["feed"],
 	summary: "Get feed data",
 	querystring: {

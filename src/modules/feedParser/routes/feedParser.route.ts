@@ -1,6 +1,6 @@
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import type { FastifyInstance } from "fastify";
-import { getFeedSchema } from "../schemas/getFeedData.schema";
+import { feedSchema } from "../schemas/feedData.schema";
 import { FeedDbService } from "../services/feedDb.service";
 import { feedParserService } from "../services/feedParser.service";
 
@@ -11,7 +11,7 @@ export async function getFeedDataRoutes(fastify: FastifyInstance) {
 	const feedDb = FeedDbService(fastify.prisma);
 	const route = fastify.withTypeProvider<TypeBoxTypeProvider>();
 
-	route.get("/feed", { schema: getFeedSchema }, async (req, reply) => {
+	route.get("/feed", { schema: feedSchema }, async (req, reply) => {
 		const { url, force } = req.query;
 		const feedUrl = url ?? DEFAULT_FEED_URL;
 
