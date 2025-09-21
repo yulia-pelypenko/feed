@@ -5,6 +5,7 @@ import { FeedDbService } from "../services/feedDb.service";
 import { feedParserService } from "../services/feedParser.service";
 
 type GetFeedQuery = FromSchema<typeof getFeedSchema.querystring>;
+const DEFAULT_FEED_URL = "https://rss.unian.net/site/news_ukr.rss";
 
 export async function getFeedDataRoutes(fastify: FastifyInstance) {
 	const feedService = feedParserService(fastify.prisma);
@@ -15,7 +16,7 @@ export async function getFeedDataRoutes(fastify: FastifyInstance) {
 		{ schema: getFeedSchema },
 		async (req, reply) => {
 			const { url, force } = req.query;
-			const feedUrl = url;
+			const feedUrl = url ?? DEFAULT_FEED_URL;
 
 			try {
 				if (force === "1") {
