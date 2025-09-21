@@ -33,5 +33,11 @@ export const getFeedSchema = {
 				},
 			},
 		},
+		500: {
+			type: "object",
+			properties: {
+				error: { type: "string" },
+			},
+		},
 	},
 } as const;
