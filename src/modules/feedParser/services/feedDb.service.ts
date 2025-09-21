@@ -1,4 +1,8 @@
-import type { Feed, Prisma, PrismaClient } from "@prisma/client";
+import type {
+	Feed,
+	Prisma,
+	PrismaClient,
+} from "../../../generated/prisma/client";
 
 export const FeedDbService = (prisma: PrismaClient) => ({
 	async getFeedByUrl(url: string): Promise<Feed | null> {
