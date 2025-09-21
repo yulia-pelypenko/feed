@@ -15,22 +15,16 @@ export async function getFeedDataRoutes(fastify: FastifyInstance) {
 		const { url, force } = req.query;
 		const feedUrl = url ?? DEFAULT_FEED_URL;
 
-		try {
-			if (force === "1") {
-				const feed = await feedService.parseAndSave(feedUrl);
-				return reply.send(feed);
-			}
-
-			let feed = await feedDb.getFeedByUrl(feedUrl);
-
-			if (!feed) {
-				feed = await feedService.parseAndSave(feedUrl);
-			}
-
-			return reply.send(feed);
-		} catch (err) {
-			req.log.error({ err }, "Failed to get feed");
-			return reply.status(500).send({ error: "Failed to fetch feed" });
+		if (force === "1") {
+			return feedService.parseAndSave(feedUrl);
 		}
+
+		let feed = await feedDb.getFeedByUrl(feedUrl);
+
+		if (!feed) {
+			feed = await feedService.parseAndSave(feedUrl);
+		}
+
+		return feed;
 	});
 }
