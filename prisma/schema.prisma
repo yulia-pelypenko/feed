@@ -22,3 +22,10 @@ type FeedItem {
   link    String
   image   String?
 }
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
