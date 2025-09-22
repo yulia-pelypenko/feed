@@ -6,5 +6,9 @@ declare module "fastify" {
 		config: Config;
 		pluginLoaded: (pluginName: string) => void;
 		prisma: PrismaClient;
+		authenticate: (
+			request: FastifyRequest,
+			reply: FastifyReply,
+		) => Promise<void>;
 	}
 }
