@@ -17,8 +17,9 @@ export const loginSchema = {
 			properties: {
 				id: { type: "string" },
 				email: { type: "string" },
+				name: { type: "string" },
 			},
-			required: ["id", "email"],
+			required: ["id", "email", "name"],
 		},
 	},
 } as const;

@@ -8,8 +8,9 @@ export const registerSchema = {
 		properties: {
 			email: { type: "string", format: "email" },
 			password: { type: "string", minLength: 6 },
+			name: { type: "string" },
 		},
-		required: ["email", "password"],
+		required: ["email", "password", "name"],
 	},
 	response: {
 		201: {
@@ -17,8 +18,9 @@ export const registerSchema = {
 			properties: {
 				id: { type: "string" },
 				email: { type: "string" },
+				name: { type: "string" },
 			},
-			required: ["id", "email"],
+			required: ["id", "email", "name"],
 		},
 	},
 } as const;

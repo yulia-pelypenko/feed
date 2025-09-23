@@ -14,14 +14,14 @@ export async function authRoutes(fastify: FastifyInstance) {
 	});
 
 	route.post("/login", { schema: loginSchema }, async (req, reply) => {
-		const result = await auth.login(req.body);
+		const AuthData = await auth.login(req.body);
 
-		if (!result) {
+		if (!AuthData) {
 			return reply.unauthorized("Invalid credentials");
 		}
 
 		reply
-			.setCookie("token", result.token)
-			.send({ id: result.id, email: result.email });
+			.setCookie("token", AuthData.token)
+			.send({ id: AuthData.id, email: AuthData.email, name: AuthData.name });
 	});
 }

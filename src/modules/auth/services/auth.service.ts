@@ -13,8 +13,8 @@ export function authService(fastify: FastifyInstance) {
 			throw fastify.httpErrors.conflict("User already exists");
 		}
 
-		const newUser = await users.createUser(data.email, data.password);
-		return { id: newUser.id, email: newUser.email };
+		const newUser = await users.createUser(data);
+		return { id: newUser.id, email: newUser.email, name: newUser.name };
 	}
 
 	async function login(data: LoginBody) {
@@ -23,7 +23,7 @@ export function authService(fastify: FastifyInstance) {
 			return null;
 		}
 
-		const isValid = await users.validateUser(data.email, data.password);
+		const isValid = await users.validateUser(data);
 		if (!isValid) {
 			return null;
 		}
@@ -34,6 +34,7 @@ export function authService(fastify: FastifyInstance) {
 			token,
 			id: user.id,
 			email: user.email,
+			name: user.name,
 		};
 	}
 
