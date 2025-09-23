@@ -2,6 +2,7 @@ import { join } from "node:path";
 import AutoLoad from "@fastify/autoload";
 import Fastify, { type FastifyServerOptions } from "fastify";
 import configPlugin from "./config";
+import { articleRoutes } from "./modules/article/routes/article.routes";
 import { authRoutes } from "./modules/auth/routes/auth.routes";
 import { getFeedDataRoutes } from "./modules/feedParser/routes/feedParser.route";
 
@@ -35,6 +36,7 @@ async function buildApp(options: AppOptions = {}) {
 
 	fastify.register(getFeedDataRoutes);
 	fastify.register(authRoutes);
+	fastify.register(articleRoutes);
 
 	return fastify;
 }
