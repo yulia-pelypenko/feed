@@ -14,7 +14,10 @@ export const articleSchema = {
 			properties: {
 				url: { type: "string", format: "uri" },
 				title: { type: "string" },
-				content: { type: "string" },
+				content: {
+					type: "array",
+					items: { type: "string" },
+				},
 				image: { type: ["string", "null"] },
 			},
 			required: ["url", "title", "content"],

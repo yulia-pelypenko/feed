@@ -10,7 +10,6 @@ export const feedSchema = {
 				enum: ["1"],
 			},
 		},
-		required: ["url"],
 	},
 	response: {
 		200: {

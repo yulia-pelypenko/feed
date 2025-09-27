@@ -9,8 +9,7 @@ export async function parseArticle(url: string) {
 
 	const content = $("p")
 		.map((_, el) => $(el).text().trim())
-		.get()
-		.join("\n\n");
+		.get();
 
 	const image =
 		$("article img").first().attr("src") ||
