@@ -1,15 +1,14 @@
-import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import type { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 import type { FastifyInstance } from "fastify";
+import { DEFAULT_FEED_URL } from "../consts";
 import { feedSchema } from "../schemas/feedData.schema";
 import { FeedDbService } from "../services/feedDb.service";
 import { feedParserService } from "../services/feedParser.service";
 
-const DEFAULT_FEED_URL = "https://rss.unian.net/site/news_ukr.rss";
-
 export async function getFeedDataRoutes(fastify: FastifyInstance) {
 	const feedService = feedParserService(fastify.prisma);
 	const feedDb = FeedDbService(fastify.prisma);
-	const route = fastify.withTypeProvider<TypeBoxTypeProvider>();
+	const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
 
 	route.get("/feed", { schema: feedSchema }, async (req, reply) => {
 		const { url, force } = req.query;
