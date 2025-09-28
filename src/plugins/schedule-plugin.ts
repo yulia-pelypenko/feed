@@ -18,8 +18,7 @@ export default fp(
 				async () => {
 					fastify.log.info("Starting daily feed parsing...");
 					try {
-						const url = DEFAULT_FEED_URL;
-						await feedParser.parseAndSave(url);
+						await feedParser.parseAndSave(DEFAULT_FEED_URL);
 						fastify.log.info("Feed saved successfully");
 					} catch (err) {
 						fastify.log.error({ err }, "Error while parsing feed");
