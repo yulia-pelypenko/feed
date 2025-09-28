@@ -32,11 +32,5 @@ export const feedSchema = {
 				},
 			},
 		},
-		500: {
-			type: "object",
-			properties: {
-				error: { type: "string" },
-			},
-		},
 	},
 } as const;
