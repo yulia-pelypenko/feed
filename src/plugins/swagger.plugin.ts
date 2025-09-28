@@ -15,7 +15,6 @@ export default fp(
 					description: "API documentation for Feed project",
 					version: "1.0.0",
 				},
-				servers: [],
 			},
 		});
 
