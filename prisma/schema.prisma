@@ -30,3 +30,25 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
+type Size {
+  width  Int
+  height Int
+}
+
+enum AdType {
+  banner
+  video
+}
+
+model LineItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  size      Size    
+  minCpm    Float
+  maxCpm    Float
+  geo       String
+  adType    AdType
+  frequency Int
+  creative  String
+  createdAt DateTime @default(now())
+}
