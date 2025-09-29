@@ -2,6 +2,8 @@ import { join } from "node:path";
 import AutoLoad from "@fastify/autoload";
 import Fastify, { type FastifyServerOptions } from "fastify";
 import configPlugin from "./config";
+import { adServerRoutes } from "./modules/adserver/ad-request/routes/ad-request.route";
+import { lineItemRoutes } from "./modules/adserver/lineItem/routes/lineItem.route";
 import { articleRoutes } from "./modules/article/routes/article.routes";
 import { authRoutes } from "./modules/auth/routes/auth.routes";
 import { getFeedDataRoutes } from "./modules/feedParser/routes/feedParser.route";
@@ -9,7 +11,9 @@ import { getFeedDataRoutes } from "./modules/feedParser/routes/feedParser.route"
 export type AppOptions = Partial<FastifyServerOptions>;
 
 async function buildApp(options: AppOptions = {}) {
-	const fastify = Fastify({ logger: true });
+	const fastify = Fastify({
+		logger: true,
+	});
 	await fastify.register(configPlugin);
 
 	try {
@@ -37,6 +41,8 @@ async function buildApp(options: AppOptions = {}) {
 	fastify.register(getFeedDataRoutes);
 	fastify.register(authRoutes);
 	fastify.register(articleRoutes);
+	fastify.register(lineItemRoutes);
+	fastify.register(adServerRoutes);
 
 	return fastify;
 }
