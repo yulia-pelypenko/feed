@@ -8,6 +8,8 @@ services:
       - .env
     depends_on:
       - mongo
+    volumes:
+      - ./public/uploads:/app/public/uploads
 
   mongo:
     image: mongo
