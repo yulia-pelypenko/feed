@@ -8,24 +8,32 @@ export async function lineItemRoutes(fastify: FastifyInstance) {
 	const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
 	const lineItemService = LineItemService(fastify);
 
-	route.get("/form", async (_request, reply) => {
-		reply.type("text/html").send(lineItemFormHtml);
-	});
+	route.get(
+		"/form",
+		{ preHandler: [fastify.authenticate] },
+		async (_request, reply) => {
+			reply.type("text/html").send(lineItemFormHtml);
+		},
+	);
 
-	route.post("/line-item", { schema: lineItemSchema }, async (req, reply) => {
-		const { width, height, ...otherFields } = req.body;
-		const data = {
-			size: {
-				width: width,
-				height: height,
-			},
-			...otherFields,
-		};
+	route.post(
+		"/line-item",
+		{ schema: lineItemSchema, preHandler: [fastify.authenticate] },
+		async (req, reply) => {
+			const { width, height, ...otherFields } = req.body;
+			const data = {
+				size: {
+					width: width,
+					height: height,
+				},
+				...otherFields,
+			};
 
-		await lineItemService.createLineItem(data);
+			await lineItemService.createLineItem(data);
 
-		return reply.code(201).send({
-			message: "Line item created successfully",
-		});
-	});
+			return reply.code(201).send({
+				message: "Line item created successfully",
+			});
+		},
+	);
 }
