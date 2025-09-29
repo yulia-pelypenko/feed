@@ -1,6 +1,6 @@
 import type { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 import type { FastifyInstance } from "fastify";
-import { LineItemFilter } from "../../lineItem/services/lineItemFilter.service";
+import { makePublicUrl } from "../../../../utils/makePublicUrl";
 import { adRequestSchema } from "../schemas/adRequestSchema";
 import { AdService } from "../services/ad-request.services";
 
@@ -12,17 +12,15 @@ export async function adServerRoutes(fastify: FastifyInstance) {
 		"/ad-request",
 		{ schema: adRequestSchema, preHandler: [fastify.authenticate] },
 		async (req, reply) => {
-			const baseUrl = `${req.protocol}://${req.headers.host}`;
+			const selectedAd = await adService.getMatchingLineAd(req.body);
 
-			const result = await adService.getMatchingLineAd(req.body);
-
-			if (!result) {
+			if (!selectedAd) {
 				return reply.status(204).send();
 			}
 
 			return reply.send({
-				...result,
-				creative: `${baseUrl}${result.creative}`,
+				...selectedAd,
+				creative: makePublicUrl(req, selectedAd.creative),
 			});
 		},
 	);

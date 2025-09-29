@@ -31,17 +31,7 @@ export function AdService(fastify: FastifyInstance) {
 				const lineItem = filtered[0];
 				fastify.log.info({ id: lineItem.id }, "AdService: selected line item");
 
-				return {
-					id: lineItem.id,
-					size: {
-						width: lineItem.size.width,
-						height: lineItem.size.height,
-					},
-					cpm,
-					geo: lineItem.geo,
-					adType: lineItem.adType,
-					creative: lineItem.creative,
-				};
+				return lineItem;
 			} catch (err) {
 				fastify.log.error({ err }, "AdService: error while matching line item");
 				throw err;
