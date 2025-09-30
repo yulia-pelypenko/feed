@@ -14,9 +14,9 @@ export function AdService(fastify: FastifyInstance) {
 					"AdService: incoming ad request",
 				);
 
-				const items = await lineItemDbService.getAllLineItems();
+				const lineItems = await lineItemDbService.getAllLineItems();
 
-				const filtered = new LineItemFilter(items)
+				const filtered = new LineItemFilter(lineItems)
 					.byType(adType)
 					.bySize(size)
 					.byGeo(geo)

@@ -20,16 +20,13 @@ export async function lineItemRoutes(fastify: FastifyInstance) {
 		"/line-item",
 		{ schema: lineItemSchema, preHandler: [fastify.authenticate] },
 		async (req, reply) => {
-			const { width, height, ...otherFields } = req.body;
-			const data = {
-				size: {
-					width: width,
-					height: height,
-				},
-				...otherFields,
-			};
+			const createdLineItem = await lineItemService.createLineItem(req.body);
 
-			await lineItemService.createLineItem(data);
+			if (!createdLineItem) {
+				return reply.code(500).send({
+					message: "❌ Failed to create Line item",
+				});
+			}
 
 			return reply.code(201).send({
 				message: "Line item created successfully",
