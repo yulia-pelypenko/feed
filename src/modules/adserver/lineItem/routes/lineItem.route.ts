@@ -23,9 +23,7 @@ export async function lineItemRoutes(fastify: FastifyInstance) {
 			const createdLineItem = await lineItemService.createLineItem(req.body);
 
 			if (!createdLineItem) {
-				return reply.code(500).send({
-					message: "❌ Failed to create Line item",
-				});
+				return reply.internalServerError("❌ Failed to create Line item");
 			}
 
 			return reply.code(201).send({
