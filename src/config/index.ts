@@ -12,7 +12,7 @@ export default fp(
 				confKey: "config",
 				schema: EnvSchema,
 				dotenv: true,
-				data: process.env as any,
+				data: process.env,
 				ajv: {
 					customOptions: () => {
 						const ajv = new Ajv({
