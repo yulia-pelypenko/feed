@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { LineItemDbService } from "../../lineItem/services/lineItemDb.service";
-import { LineItemFilter } from "../../lineItem/services/lineItemFilter.service";
+import { createLineItemFilter } from "../../lineItem/services/lineItemFilter.service";
 import type { AdRequest } from "../interfaces/IAdRequest";
 
 export function AdService(fastify: FastifyInstance) {
@@ -16,7 +16,7 @@ export function AdService(fastify: FastifyInstance) {
 
 				const lineItems = await lineItemDbService.getAllLineItems();
 
-				const filtered = new LineItemFilter(lineItems)
+				const filtered = createLineItemFilter(lineItems)
 					.byType(adType)
 					.bySize(size)
 					.byGeo(geo)

@@ -1,35 +1,35 @@
 import type { LineItem, Size } from "../../../../generated/prisma/client";
 import type { AdRequest } from "../../ad-request/interfaces/IAdRequest";
 
-export class LineItemFilter {
-	constructor(private items: LineItem[]) {}
+export function createLineItemFilter(items: LineItem[]) {
+	return {
+		byType(adType: AdRequest["adType"]) {
+			return createLineItemFilter(
+				items.filter((item) => item.adType === adType),
+			);
+		},
 
-	byType(adType: AdRequest["adType"]) {
-		this.items = this.items.filter((item) => item.adType === adType);
-		return this;
-	}
+		bySize(size: Size) {
+			return createLineItemFilter(
+				items.filter(
+					(item) =>
+						item.size.width === size.width && item.size.height === size.height,
+				),
+			);
+		},
 
-	bySize(size: Size) {
-		this.items = this.items.filter(
-			(item) =>
-				item.size.width === size.width && item.size.height === size.height,
-		);
-		return this;
-	}
+		byGeo(geo: AdRequest["geo"]) {
+			return createLineItemFilter(items.filter((item) => item.geo === geo));
+		},
 
-	byGeo(geo: AdRequest["geo"]) {
-		this.items = this.items.filter((item) => item.geo === geo);
-		return this;
-	}
+		byCpm(cpm: AdRequest["cpm"]) {
+			return createLineItemFilter(
+				items.filter((item) => item.minCpm <= cpm && item.maxCpm >= cpm),
+			);
+		},
 
-	byCpm(cpm: AdRequest["cpm"]) {
-		this.items = this.items.filter(
-			(item) => item.minCpm <= cpm && item.maxCpm >= cpm,
-		);
-		return this;
-	}
-
-	get() {
-		return this.items;
-	}
+		get() {
+			return items;
+		},
+	};
 }
